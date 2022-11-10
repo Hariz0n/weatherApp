@@ -1,0 +1,222 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+:root {
+    --color-dark: #003C8F;
+    --color-main: #1565c0;
+    --color-light: #5e92f3;
+}
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-size: 2.4rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 1074px;
+    margin: 0 auto;
+}
+
+/* header */
+
+.header {
+    margin-bottom: 40px;
+}
+
+.header__inner {
+    display: flex;
+    gap: 60px;
+    border-top: none;
+    padding: 3rem;
+    min-height: 25rem;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    background-color: var(--color-dark);
+}
+
+.header__inputs-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.header__input-block {
+
+}
+
+.header__input-heading {
+    font-weight: 400;
+    margin-bottom: 4px;
+    font-size: 2.4rem;
+    color: #fff;
+}
+
+.header__input {
+    height: 30px;
+    border: none;
+    appearance: none;
+    outline: none;
+    border-radius: 12px;
+    font-size: 2rem;
+    padding: 10px;
+}
+
+.header__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* buttons */
+
+.btn {
+    display: block;
+    border: none;
+    background-color: var(--color-main);
+    outline: none;
+    color: #fff;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 1.8rem;
+    border-radius: 10px;
+    text-align: center;
+    width: 200px;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+.btn:hover {
+    fill: var(--color-main);
+    background-color: #fff;
+    color: var(--color-main);
+    outline: 1px solid var(--color-main);
+}
+
+.btn_round {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    padding: 0;
+    background-color: white;
+}
+
+.btn_round:hover {
+    transform: rotate(270deg);
+}
+
+/* main */
+
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-bottom: 40px;
+}
+
+/* widget */
+
+.widget__inner {
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+.widget__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    background-color: #1565C0;
+    color: white;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.widget__buttons {
+    display: flex;
+    gap: 40px;
+}
+
+.widget__button-icon {
+    opacity: .75;
+    height: 30px;
+    width: 30px;
+    margin: auto;
+}
+
+.widget__data {
+    position: relative;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.widget__info {
+    width: 48%;
+}
+
+.widget__img-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48%;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+
+.widget__img {
+    object-fit: cover;
+}
+
+.widget__general-text {
+    font-size: 3.2rem;
+    margin-bottom: 30px;
+}
+
+.widget__text:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.widget__loading {
+    margin: 20px auto;
+    width: 100%;
+}
+
+.widget__theme-icon {
+    position: absolute;
+    background-color: rgba(255, 255, 255, .3);
+    border-radius: 50%;
+    top: 30px;
+    right: 30px;
+    width: 100px;
+    height: 100px;
+    z-index: 1000;
+}
+
+
+/* error */
+
+.error {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin: 0 auto;
+}

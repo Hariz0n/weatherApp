@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="js/script.js" defer></script>
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Погода</title>
+</head>
+<body>
+    <svg display="none">
+        <symbol id="loading" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" fill="none" stroke="#1d3f72" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
+                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+            </circle>
+        </symbol>
+        <symbol id="refresh" viewBox="0 0 34 34">
+            <path d="M28.7709 5.22917C25.75 2.20833 21.6042 0.333332 17 0.333332C7.79169 0.333332 0.354187 7.79166 0.354187 17C0.354187 26.2083 7.79169 33.6667 17 33.6667C24.7709 33.6667 31.25 28.3542 33.1042 21.1667H28.7709C27.0625 26.0208 22.4375 29.5 17 29.5C10.1042 29.5 4.50002 23.8958 4.50002 17C4.50002 10.1042 10.1042 4.5 17 4.5C20.4584 4.5 23.5417 5.9375 25.7917 8.20833L19.0834 14.9167H33.6667V0.333332L28.7709 5.22917Z" fill-opacity="0.75"/>
+        </symbol>
+        <symbol id="close" viewBox="0 0 30 30">
+            <path d="M29.5834 3.35417L26.6459 0.416668L15 12.0625L3.35419 0.416668L0.416687 3.35417L12.0625 15L0.416687 26.6458L3.35419 29.5833L15 17.9375L26.6459 29.5833L29.5834 26.6458L17.9375 15L29.5834 3.35417Z" fill-opacity="0.75"/>
+        </symbol>
+    </svg>
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <div class="header__inputs-block">
+                    <div class="header__input-block">
+                        <h2 class="header__input-heading">Город:</h2>
+                        <input type="text" class="header__input" id="city">
+                    </div>
+                    <div class="header__input-block">
+                        <h2 class="header__input-heading">Широта:</h2>
+                        <input type="number" class="header__input" id="latitude" value="56.8519000">
+                    </div>
+                    <div class="header__input-block">
+                        <h2 class="header__input-heading">Долгота:</h2>
+                        <input type="number" class="header__input" id="longitude" value="60.6122000">
+                    </div>
+                </div>
+                <div class="header__buttons">
+                    <button class="btn" id="addByCity">Добавить виджет по городу</button>
+                    <button class="btn" id="addByCoords">Добавить виджет по координатам</button>
+                    <button class="btn" id="refreshAll">Обновить все виджеты</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+
+    </main>
+
+</body>
+</html>
