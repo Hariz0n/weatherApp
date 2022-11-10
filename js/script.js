@@ -82,10 +82,10 @@ class widget {
         this.section.querySelectorAll('.btn_round').forEach(elem => {
             elem.addEventListener('click', e => {
                 console.log('22');
-                if (e.target && e.currentTarget.matches('[widgetAction="refresh"]')){
+                if (e.target && e.currentTarget.matches('[widgetAction="refresh"]')) {
                     this.update();
                 }
-                if (e.target && e.currentTarget.matches('[widgetAction="close"]')){
+                if (e.target && e.currentTarget.matches('[widgetAction="close"]')) {
                     this.delete();
                 }
             });
@@ -93,57 +93,63 @@ class widget {
         block.append(this.section);
         this.render();
     }
+    render() {
+        this.getJsonData(this.longitude, this.latitude)
+            .then(data => {
+                this.dataSection.innerHTML = `
+                    <img class="widget__theme-icon" src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="">
+                    <div class="widget__info">
+                        <h3 class="widget__general-text">${data.weather[0].description}</h3>
+                        <p class="widget__text">Температура: ${data.main.temp}С</p>
+                        <p class="widget__text">Ощущается как: ${data.main.feels_like}C</p>
+                        <p class="widget__text">Влажность: ${data.main.humidity}%</p>
+                        <p class="widget__text">Скорость ветра: ${data.wind.speed} м/c</p>
+                    </div>
+                    <div class="widget__img-box" id="widgetImgBox-${this.id}"></div>
+                    `;
+                new mapboxgl.Map({
+                    container: `widgetImgBox-${this.id}`,
+                    style: 'mapbox://styles/mapbox/streets-v11',
+                    center: [this.longitude, this.latitude],
+                    zoom: 11,
+                    projection: 'equalEarth'
+                });
+            })
+            .catch(error => {
+                this.dataSection.innerHTML = `
+                    <div class="error">
+                        <h3 class="error__title">Произошла ошибка. Попробуйте запрос позже</h3>
+                        <p class="error__descr">Виджет будет удален через 10 секунда</p>
+                    </div>
+                    `;
+            });
+    }
+
+
+    async getJsonData(lat, long) {
+        return await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${openWeatherApiKey}&units=metric&lang=ru`)
+            .then(data => data.json())
+            .catch(error => error);
+    }
+
+    delete() {
+        if (!this.isActive) {
+            return;
+        }
+        this.section.remove();
+        this.isActive = !this.isActive;
+    }
+
+
+    update() {
+        if (!this.isActive) {
+            return;
+        }
+        this.dataSection.innerHTML = `
+                <svg class="widget__loading"><use xlink:href="#loading"></use></svg>
+            `;
+        this.render();
+    }
 }
 
-widget.prototype.render = function () {
-    this.getJsonData(this.longitude, this.latitude)
-        .then(data => {
-            this.dataSection.innerHTML = `
-                <img class="widget__theme-icon" src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="">
-                <div class="widget__info">
-                    <h3 class="widget__general-text">${data.weather[0].description}</h3>
-                    <p class="widget__text">Температура: ${data.main.temp}С</p>
-                    <p class="widget__text">Ощущается как: ${data.main.feels_like}C</p>
-                    <p class="widget__text">Влажность: ${data.main.humidity}%</p>
-                    <p class="widget__text">Скорость ветра: ${data.wind.speed} м/c</p>
-                </div>
-                <div class="widget__img-box" id="widgetImgBox-${this.id}"></div>
-                `;
-            new mapboxgl.Map({
-                container: `widgetImgBox-${this.id}`,
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: [this.longitude, this.latitude],
-                zoom: 11,
-                projection: 'equalEarth'
-            });
-        })
-        .catch(error => {
-            this.dataSection.innerHTML = `
-                <div class="error">
-                    <h3 class="error__title">Произошла ошибка. Попробуйте запрос позже</h3>
-                    <p class="error__descr">Виджет будет удален через 10 секунда</p>
-                </div>
-                `;
-        });
-};
-widget.prototype.getJsonData = async function (lat, long) {
-    return await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${openWeatherApiKey}&units=metric&lang=ru`)
-        .then(data => data.json())
-        .catch(error => error);
-};
-widget.prototype.delete = function () {
-    if (!this.isActive) {return;}
-    this.section.remove();
-    this.isActive = !this.isActive;
-};
-widget.prototype.update = function () {
-    if (!this.isActive) {return;}
-    this.dataSection.innerHTML = `
-            <svg class="widget__loading"><use xlink:href="#loading"></use></svg>
-        `;
-    this.render();
-};
-
 let x = new WeatherApp();
-
-
