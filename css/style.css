@@ -45,6 +45,8 @@ p, h1, h2, h3, h4, h5, h6 {
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
     background-color: var(--color-dark);
+    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.5);
+    align-items: center;
 }
 
 .header__inputs-block {
@@ -79,6 +81,11 @@ p, h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.header__text {
+    color: white;
+    transform: rotate(-7deg);
 }
 
 .invalid {
@@ -178,6 +185,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .widget__img-box {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -208,11 +216,12 @@ p, h1, h2, h3, h4, h5, h6 {
     position: absolute;
     background-color: rgba(255, 255, 255, .3);
     border-radius: 50%;
-    top: 30px;
-    right: 30px;
+    top: 20px;
+    left: 20px;
     width: 100px;
     height: 100px;
     z-index: 1000;
+    outline: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 

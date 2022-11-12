@@ -114,7 +114,6 @@ class widget {
                     throw new Error(`Произошла ошибка! Код: ${data.cod}`);
                 }
                 this.dataSection.innerHTML = `
-                    <img class="widget__theme-icon" src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="">
                     <div class="widget__info">
                         <h3 class="widget__general-text">${data.weather[0].description.toUpperCase()}</h3>
                         <p class="widget__text">Температура: ${data.main.temp} °C</p>
@@ -122,15 +121,22 @@ class widget {
                         <p class="widget__text">Влажность: ${data.main.humidity}%</p>
                         <p class="widget__text">Скорость ветра: ${data.wind.speed} м/c</p>
                     </div>
-                    <div class="widget__img-box" id="widgetImgBox-${this.id}"></div>
+                    <div class="widget__img-box" id="widgetImgBox-${this.id}">
+                        <img class="widget__theme-icon" src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="">
+                    </div>
                     `;
-                new mapboxgl.Map({
+                const map = new mapboxgl.Map({
                     container: `widgetImgBox-${this.id}`,
                     style: 'mapbox://styles/mapbox/streets-v11',
                     center: [this.longitude, this.latitude],
                     zoom: 11,
                     projection: 'equalEarth'
                 });
+                map.scrollZoom.disable();
+                const marker1 = new mapboxgl.Marker()
+                    .setLngLat([this.longitude, this.latitude])
+                    .addTo(map);
+                map.addControl(new mapboxgl.NavigationControl());
             })
             .catch(error => {
                 this.dataSection.innerHTML = `
