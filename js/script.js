@@ -13,10 +13,19 @@ class WeatherApp {
             if (evt.target && evt.target.matches('.btn')) {
                 switch (evt.target.id) {
                     case 'addByCoords':
-                        this.createWidgetByCoords();
+                        if (this.isValidInput(true)) {
+                            this.createWidgetByCoords();
+                        } else {
+                            this.latitudeInput.classList.add('invalid');
+                            this.longitudeInput.classList.add('invalid');
+                        }
                         break;
                     case 'addByCity':
-                        this.createWidgetByCity();
+                        if (this.isValidInput()) {
+                            this.createWidgetByCity();
+                        } else {
+                            this.cityInput.classList.add('invalid');
+                        }
                         break;
                     case 'refreshAll':
                         this.updateAllWidgets();
@@ -37,11 +46,7 @@ class WeatherApp {
         fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${this.cityInput.value}&limit=1&appid=${openWeatherApiKey}`)
             .then(data => data.json())
             .then(json => {
-                if (json.length) {
-                    this.widgets.push(new widget(json[0].lat, json[0].lon, this.widgets.length, this.widgetsList, json[0].local_names.ru));
-                } else {
-                    this.cityInput.style.backgroundColor = '#ff0000';
-                }
+                this.widgets.push(new widget(json[0].lat, json[0].lon, this.widgets.length, this.widgetsList, json[0].local_names.ru));
             });
     }
 
@@ -49,6 +54,15 @@ class WeatherApp {
         this.widgets.forEach(widget => {
             widget.update();
         });
+    }
+
+    isValidInput(isCoords = false) {
+        if (isCoords) {
+            return this.latitudeInput.value && this.longitudeInput &&
+                parseFloat(this.latitudeInput.value) <= 90 && parseFloat(this.latitudeInput.value) >= 0 &&
+                parseFloat(this.longitudeInput.value) <= 90 && parseFloat(this.longitudeInput.value) >= 0;
+        }
+        return this.cityInput.value && !this.cityInput.value.match(/[a-z]/i);
     }
 }
 
@@ -96,12 +110,15 @@ class widget {
     render() {
         this.getJsonData(this.longitude, this.latitude)
             .then(data => {
+                if (data.cod != 200) {
+                    throw new Error(`Произошла ошибка! Код: ${data.cod}`);
+                }
                 this.dataSection.innerHTML = `
                     <img class="widget__theme-icon" src="http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="">
                     <div class="widget__info">
-                        <h3 class="widget__general-text">${data.weather[0].description}</h3>
-                        <p class="widget__text">Температура: ${data.main.temp}С</p>
-                        <p class="widget__text">Ощущается как: ${data.main.feels_like}C</p>
+                        <h3 class="widget__general-text">${data.weather[0].description.toUpperCase()}</h3>
+                        <p class="widget__text">Температура: ${data.main.temp} °C</p>
+                        <p class="widget__text">Ощущается как: ${data.main.feels_like} °C</p>
                         <p class="widget__text">Влажность: ${data.main.humidity}%</p>
                         <p class="widget__text">Скорость ветра: ${data.wind.speed} м/c</p>
                     </div>
@@ -119,9 +136,12 @@ class widget {
                 this.dataSection.innerHTML = `
                     <div class="error">
                         <h3 class="error__title">Произошла ошибка. Попробуйте запрос позже</h3>
-                        <p class="error__descr">Виджет будет удален через 10 секунда</p>
+                        <p class="error__descr">Виджет будет удален через 3 секунды</p>
                     </div>
                     `;
+                setTimeout(() => {
+                    this.delete();
+                }, 3000);
             });
     }
 
@@ -139,7 +159,6 @@ class widget {
         this.section.remove();
         this.isActive = !this.isActive;
     }
-
 
     update() {
         if (!this.isActive) {

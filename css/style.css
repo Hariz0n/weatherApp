@@ -72,12 +72,17 @@ p, h1, h2, h3, h4, h5, h6 {
     border-radius: 12px;
     font-size: 2rem;
     padding: 10px;
+    width: 100%;
 }
 
 .header__buttons {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.invalid {
+    outline: 2px solid rgba(255, 0, 0, 1);
 }
 
 /* buttons */
