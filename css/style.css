@@ -55,10 +55,6 @@ p, h1, h2, h3, h4, h5, h6 {
     gap: 10px;
 }
 
-.header__input-block {
-
-}
-
 .header__input-heading {
     font-weight: 400;
     margin-bottom: 4px;
